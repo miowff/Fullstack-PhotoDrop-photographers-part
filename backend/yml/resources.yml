@@ -1,0 +1,31 @@
+Resources:
+  PhotoDropDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      Engine: MySQL
+      DBName: PhotoDropDB
+      DBInstanceClass: db.t3.micro
+      MasterUsername: ${ssm:PHOTO_DROP_DB_USERNAME}
+      MasterUserPassword: ${ssm:PHOTO_DROP_DB_PASSWORD}
+      AllocatedStorage: 5
+      BackupRetentionPeriod: 0
+      PubliclyAccessible: true
+
+  PhotoDropS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: photo-drop-images
+      AccessControl: Private
+      CorsConfiguration:
+        CorsRules:
+          - AllowedMethods:
+              - GET
+              - PUT
+              - POST
+              - HEAD
+            AllowedOrigins:
+              - "*"
+            AllowedHeaders:
+              - "*"
+            ExposedHeaders:
+              - ETag

@@ -1,0 +1,66 @@
+AuthorizeUser:
+  handler: src/lambdas/authorizer.handler
+
+GetAlbums:
+  handler: src/lambdas/albums/getAllPhotographerAlbums.handler
+  events:
+    - httpApi:
+        path: /albums
+        method: GET
+        authorizer:
+          name: photographersAuthorizer
+
+CreateAlbum:
+  handler: src/lambdas/albums/createAlbum.handler
+  events:
+    - httpApi:
+        path: /albums
+        method: POST
+        authorizer:
+          name: photographersAuthorizer
+
+RequestUploadUrls:
+  handler: src/lambdas/photos/requestUploadUrls.handler
+  events:
+    - httpApi:
+        path: /request-upload-urls
+        method: POST
+        authorizer:
+          name: photographersAuthorizer
+
+AttachUsersToPhoto:
+  handler: src/lambdas/photos/attachPhotosToUser.handler
+  events:
+    - httpApi:
+        path: /attach-users-to-photo
+        method: POST
+        authorizer:
+          name: photographersAuthorizer
+
+GetAvailableNumbers:
+  handler: src/lambdas/users/getAvailableNumbers.handler
+  events:
+    - httpApi:
+        path: /available-numbers
+        method: GET
+        authorizer:
+          name: photographersAuthorizer
+
+AddWatermarkAndThumbnailAddToDb:
+  handler: src/lambdas/photos/addPhoto.handler
+  events:
+    - s3:
+        bucket: photo-drop-images
+        event: s3:ObjectCreated:*
+        existing: true
+        rules:
+          - prefix: originalPhotos/
+  memorySize: 1000
+  timeout: 10
+
+SignIn:
+  handler: src/lambdas/photographers/signIn.handler
+  events:
+    - httpApi:
+        path: /sign-in
+        method: POST

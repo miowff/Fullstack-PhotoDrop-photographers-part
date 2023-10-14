@@ -1,0 +1,23 @@
+@font-face {
+  font-family: FuturaPT;
+  src: url(../fonts/FuturaPT-Bold.ttf);
+}
+html {
+  box-sizing: border-box;
+}
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ul {
+  list-style: none;
+}
+li {
+  list-style: none;
+}
