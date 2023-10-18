@@ -4,6 +4,7 @@ export const AlbumContainer = styled.div`
   justify-content: center;
   align-items: center;
   img {
+    margin: 0;
     width: 120px;
     height: 100%;
     object-fit: cover;
@@ -13,23 +14,48 @@ export const AlbumContainer = styled.div`
     border-color: black;
     transition: 0.5s;
   }
-`;
-export const AlbumCard = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  cursor: pointer;
-  margin-right: 200px;
-  width: 300px;
-  height: 100px;
-  h2 {
-    font-size: 21px;
+  div {
+    margin: 15px;
+  }
+  @media (max-width: 665px) {
+    img {
+      margin: 0;
+      width: 100px;
+      height: 80%;
+      object-fit: cover;
+    }
+  }
+  @media (max-width: 265px) {
+    max-width: 200px;
+    img {
+      margin: 0;
+      width: 100px;
+      height: 70%;
+      object-fit: cover;
+    }
+  }
+  @media (max-width: 210px) {
+    max-width: 150px;
+    
   }
 `;
 export const CardText = styled.div`
-  margin-top: 15px;
+  gap: 35px;
+  margin-left: 15px;
   display: flex;
   flex-direction: column;
-  gap: 25px;
   font-family: FuturaPT;
+  width: 90%;
+  @media (max-width: 265px) {
+    h3 {
+      font-size: 13px;
+    }
+    gap: 15px;
+  }
+  @media (max-width: 201px) {
+    h3 {
+      font-size: 7px;
+    }
+    gap: 15px;
+  }
 `;

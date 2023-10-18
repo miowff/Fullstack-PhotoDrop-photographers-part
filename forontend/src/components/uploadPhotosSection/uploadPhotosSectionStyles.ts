@@ -20,7 +20,7 @@ export const ButtonsContainer = styled.div`
     color: gray;
   }
   align-items: center;
-  @media (max-width: 880px) {
+  @media (max-width: 1250px) {
     gap: 10px;
     flex-direction: column;
   }
@@ -117,6 +117,15 @@ export const PhotosGrid = styled.div`
       height: 100%;
       object-fit: cover;
       border-radius: 5px;
+    }
+  }
+  @media (max-width: 390px) {
+    padding-right: 60px;
+  }
+  @media (max-width: 280px) {
+    img {
+      max-width: 150px;
+      max-height: 200px;
     }
   }
   @media (max-width: 230px) {

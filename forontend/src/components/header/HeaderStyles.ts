@@ -6,17 +6,25 @@ export const Logo = styled.div`
   display: block;
   margin-left: auto;
   margin-right: auto;
+  @media (max-width: 280px) {
+    img {
+      width: 130px;
+    }
+  }
+  @media (max-width: 220px) {
+    img {
+      width: 90px;
+    }
+  }
 `;
 export const HeaderContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media (max-width: 550px) {
-    display: flex;
-    flex-direction: column;
-  }
+  gap: 15px;
 `;
 export const LogOutButton = styled.button`
+  float: right;
   width: 120px;
   height: 40px;
   font-family: FuturaPT;
@@ -36,11 +44,17 @@ export const LogOutButton = styled.button`
   transform: translateY(-50%);
   @media (max-width: 460px) {
     width: 80px;
-    right: 5px;
   }
-  @media (max-width: 360px) {
+  @media (max-width: 370px) {
     width: 60px;
-    right: -50px;
+    font-size: 16px;
+  }
+  @media (max-width: 335px) {
+    width: 50px;
+    font-size: 15px;
+  }
+  @media (max-width: 315px) {
+    width: 30px;
+    font-size: 13px;
   }
 `;
-

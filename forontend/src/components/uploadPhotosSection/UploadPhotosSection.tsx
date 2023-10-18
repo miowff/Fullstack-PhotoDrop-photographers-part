@@ -15,13 +15,18 @@ import {
 } from "./uploadPhotosSectionStyles";
 
 import AddUsersForm from "../addUsersToPhotoForm/AddUsersForm";
-import { getAvailableNumbers } from "@/api/users";
+
 import { useParams } from "react-router-dom";
 import AttachNumbersAlert from "./AttachNumbersAlert";
 import { PhotoData } from "@/models/photo";
-import { attachUsersToPhoto, requestUploadUrls } from "@/api/photos";
 import { selectedNumbersMapToJSON } from "@/utils/mapToJSON";
 import axios from "axios";
+import {
+  attachUsersToPhoto,
+  getAvailableNumbers,
+  requestUploadUrls,
+} from "@/api";
+import { PresignedUrl } from "@/models/url";
 
 const UploadPhotosSection = () => {
   const { id } = useParams();
@@ -61,7 +66,10 @@ const UploadPhotosSection = () => {
       const { name, type } = photo;
       return { name, type };
     });
-    const responseUrls = await requestUploadUrls(photosData, id as string);
+    const responseUrls = (await requestUploadUrls({
+      photosData,
+      albumId: id as string,
+    })) as PresignedUrl[];
     responseUrls.forEach(async (responseUrl, index) => {
       const { fields, url } = responseUrl;
       const formData = new FormData();
@@ -74,7 +82,7 @@ const UploadPhotosSection = () => {
       });
     });
     setSelectedImages([]);
-    
+
     setSelectedPhoneNumbers(new Map());
     setTimeout(async () => {
       await attachUsersToPhoto({

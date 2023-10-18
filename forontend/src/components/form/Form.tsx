@@ -3,7 +3,6 @@ import { Container } from "@/globalStyle";
 import { FromContainer, Input, LoginFrom, SubmitButton } from "./FormStyles";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { signIn } from "@/api/login";
 import { AUTH_TOKEN_KEY } from "@/enums/authTokenKey";
 import Alert from "./Alert";
 import { BaseError } from "@/models/error";
@@ -12,6 +11,7 @@ import {
   UNEXPECTED_ERROR,
   USER_NOT_FOUND,
 } from "@/enums/errorMessages";
+import { signIn } from "@/api";
 
 function Form() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function Form() {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const token = await signIn(password, login);
+      const token = await signIn({ password, login });
       localStorage.setItem(AUTH_TOKEN_KEY, token);
       navigate("/");
     } catch (error) {

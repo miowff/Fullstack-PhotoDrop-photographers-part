@@ -6,10 +6,13 @@ export const AlbumsGrid = styled.div`
   margin-top: 20px;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: dense;
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media (max-width: 1550px) {
+    grid-template-columns: repeat(3, 1fr);
   }
   @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 490px) {
     grid-template-columns: repeat(1, 1fr);
   }
 `;

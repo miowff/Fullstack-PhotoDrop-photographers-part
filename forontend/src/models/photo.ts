@@ -7,3 +7,8 @@ export interface PhotoData {
   name: string;
   type: string;
 }
+
+export interface RequestLinks {
+  photosData: PhotoData[];
+  albumId: string;
+}

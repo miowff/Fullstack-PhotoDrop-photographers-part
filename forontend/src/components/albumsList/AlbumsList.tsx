@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import { BaseError } from "@/models/error";
 import { useNavigate } from "react-router-dom";
 import { AlbumsGrid, ButtonContainer } from "./AlbumsListStyles";
-import { getAlbums } from "@/api/albums";
 import React from "react";
 import CreateAlbumForm from "../createAlbumForm/CreateAlbumForm";
+import { getAlbums } from "@/api";
 function AlbumsList() {
   const navigate = useNavigate();
   const [albums, setAlbum] = useState<AlbumModel[]>([]);

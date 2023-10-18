@@ -7,7 +7,9 @@ import responseCreator from "src/services/utils/responseCreator";
 export const handler = async (event: S3Event) => {
   try {
     const { Records } = event;
+
     const key = decodeURI(Records[0].s3.object.key).replace("+", " ");
+    console.log(key);
     const splittedKey = key.split("/");
     const albumTitle = decodeURI(splittedKey[1]).replace("+", " ");
     const { id, title } = await albumsService.getByTitle(albumTitle);

@@ -7,7 +7,7 @@ import {
   SubmitButton,
 } from "./createAlbumFormStyles";
 import { useState } from "react";
-import { addAlbum } from "@/api/albums";
+import { addAlbum } from "@/api";
 type CreateAlbumProps = {
   onAlbumCreated: (albums: AlbumModel[]) => void;
   setOpenCreateAlbumForm: React.Dispatch<React.SetStateAction<boolean>>;
