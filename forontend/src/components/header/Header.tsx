@@ -3,14 +3,15 @@ import headerLogo from "./assets/photoDropLogo.svg";
 import { HeaderContent, LogOutButton, Logo } from "./HeaderStyles";
 import { useLocation } from "react-router-dom";
 import { AUTH_TOKEN_KEY } from "@/enums/authTokenKey";
+import { useNavigate } from "react-router-dom";
 function Header() {
   const { pathname } = useLocation();
-
+  const navigate = useNavigate();
   const shouldRenderLogoutButton = pathname !== "/login";
 
   const handleLogOut = () => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
-    window.location.href = "/login";
+    navigate("/login");
   };
   return (
     <Container>
