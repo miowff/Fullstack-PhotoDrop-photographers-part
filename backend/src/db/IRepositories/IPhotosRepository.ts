@@ -1,4 +1,4 @@
-import { UserPhoto } from "../schema/userPhotos";
+import { UserPhoto } from "../entities/userPhotos";
 
 export interface IPhotosRepository<TInsert, TSelect> {
   addNew(album: TInsert): Promise<void>;

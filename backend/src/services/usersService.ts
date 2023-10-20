@@ -1,6 +1,6 @@
 import { IUsersRepository } from "src/db/IRepositories/IUsersRepository";
 import { IUsersService } from "./IServices/IUsersService";
-import { SelectUser } from "src/db/schema/users";
+import { SelectUser } from "src/db/entities/users";
 import { usersRepository } from "src/db/repositories/usersRepository";
 
 class UsersService implements IUsersService {

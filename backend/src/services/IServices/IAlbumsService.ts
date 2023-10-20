@@ -1,4 +1,4 @@
-import { Album, AlbumPreview, CreateAlbumModel } from "src/db/schema/album";
+import { Album, AlbumPreview, CreateAlbumModel } from "src/db/entities/album";
 
 export interface IAlbumsService {
   getAllPhotographerAlbums(photographerId: string): Promise<AlbumPreview[]>;

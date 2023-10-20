@@ -4,7 +4,7 @@ import {
   AlbumPreview,
   CreateAlbumModel,
   InsertAlbum,
-} from "src/db/schema/album";
+} from "src/db/entities/album";
 import { IAlbumsRepository } from "src/db/IRepositories/IAlbumsRepository";
 import { albumsRepository } from "src/db/repositories/albumsRepository";
 import { randomUUID } from "crypto";

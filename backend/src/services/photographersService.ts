@@ -1,6 +1,6 @@
 import { IPhotographersRepository } from "src/db/IRepositories/IPhotographersRepository";
 import { photographersRepository } from "src/db/repositories/photographersRepository";
-import { Photographer } from "src/db/schema/photographer";
+import { Photographer } from "src/db/entities/photographer";
 import { IPhotographersService } from "./IServices/IPhotographersService";
 import { TokensResponse } from "src/models/tokensResponse";
 import { ApiError } from "src/errors/apiError";

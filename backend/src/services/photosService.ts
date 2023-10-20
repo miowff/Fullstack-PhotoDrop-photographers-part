@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 import { IPhotosService } from "./IServices/IPhotosService";
 import { CreatePhotoRequest } from "src/models/photo";
 import { IPhotosRepository } from "src/db/IRepositories/IPhotosRepository";
-import { InsertPhoto, Photo } from "src/db/schema/photo";
+import { InsertPhoto, Photo } from "src/db/entities/photo";
 import { photosRepository } from "src/db/repositories/photosRepository";
 import { s3Service } from "./utils/s3Service";
 import getEnv from "./utils/getEnv";
@@ -10,7 +10,7 @@ import photoEditor from "./utils/photoEditor";
 import { FoldersNames } from "src/enums/foldersNames";
 import { AttachUsersToPhoto } from "src/models/attachUsersModel";
 import { IUsersRepository } from "src/db/IRepositories/IUsersRepository";
-import { SelectUser } from "src/db/schema/users";
+import { SelectUser } from "src/db/entities/users";
 import { usersRepository } from "src/db/repositories/usersRepository";
 
 class PhotosService implements IPhotosService {

@@ -1,6 +1,6 @@
 import { MySql2Database } from "drizzle-orm/mysql2";
 import { IUsersRepository } from "../IRepositories/IUsersRepository";
-import { SelectUser, users } from "../schema/users";
+import { SelectUser, users } from "../entities/users";
 import { db } from "../dbConnection";
 import { eq } from "drizzle-orm";
 

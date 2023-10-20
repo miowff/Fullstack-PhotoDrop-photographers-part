@@ -1,7 +1,7 @@
 import { MySql2Database } from "drizzle-orm/mysql2";
 import { db } from "../dbConnection";
 import { IAlbumsRepository } from "../IRepositories/IAlbumsRepository";
-import { Album, InsertAlbum, albums } from "../schema/album";
+import { Album, InsertAlbum, albums } from "../entities/album";
 import { eq } from "drizzle-orm";
 
 class AlbumsRepository implements IAlbumsRepository<InsertAlbum, Album> {

@@ -2,7 +2,7 @@ import {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
 } from "aws-lambda/trigger/api-gateway-proxy";
-import { CreateAlbumModel } from "src/db/schema/album";
+import { CreateAlbumModel } from "src/db/entities/album";
 import { albumsService } from "src/services/albumsService";
 
 import responseCreator from "src/services/utils/responseCreator";

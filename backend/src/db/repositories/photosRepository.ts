@@ -2,9 +2,9 @@ import { MySql2Database } from "drizzle-orm/mysql2";
 import { db } from "../dbConnection";
 
 import { IPhotosRepository } from "../IRepositories/IPhotosRepository";
-import { InsertPhoto, Photo, photos } from "../schema/photo";
+import { InsertPhoto, Photo, photos } from "../entities/photo";
 import { eq } from "drizzle-orm";
-import { UserPhoto, userPhotos } from "../schema/userPhotos";
+import { UserPhoto, userPhotos } from "../entities/userPhotos";
 
 class PhotosRepository implements IPhotosRepository<InsertPhoto, Photo> {
   constructor(private readonly db: MySql2Database) {}

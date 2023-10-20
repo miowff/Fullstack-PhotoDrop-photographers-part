@@ -1,6 +1,6 @@
 import { MySql2Database } from "drizzle-orm/mysql2";
 import { IPhotographersRepository } from "../IRepositories/IPhotographersRepository";
-import { Photographer, photographers } from "../schema/photographer";
+import { Photographer, photographers } from "../entities/photographer";
 import { eq } from "drizzle-orm";
 import { db } from "../dbConnection";
 

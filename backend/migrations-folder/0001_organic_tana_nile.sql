@@ -1,0 +1,1 @@
+ALTER TABLE `Photos` MODIFY COLUMN `Id` varchar(80) NOT NULL;
