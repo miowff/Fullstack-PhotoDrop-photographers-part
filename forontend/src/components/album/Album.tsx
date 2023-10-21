@@ -1,12 +1,13 @@
 import { AlbumModel } from "@/models/album";
 import { AlbumContainer, CardText } from "./AlbumStyles";
 import folderIcon from "./assets/folder-icon.svg";
+import { useNavigate } from "react-router-dom";
+
 function Album(albumInfo: AlbumModel) {
   const { title, location, id } = albumInfo;
-
+  const navigate = useNavigate();
   const handleClick = () => {
-    console.log(id);
-    window.location.href = `/album/${id}`;
+    navigate(`/album/${id}`);
   };
   return (
     <AlbumContainer onClick={handleClick}>
