@@ -40,11 +40,7 @@ provider:
     BUCKET_NAME: photo-drop-images
     WATERMARK_KEY: ${ssm:WATERMARK_KEY}
     REGION: us-east-1
-    TWILIO_ACCOUNT_SID: ${ssm:TWILIO_ACCOUNT_SID}
-    TWILIO_AUTH_TOKEN: ${ssm:TWILIO_AUTH_TOKEN}
-    TWILIO_PHONE_NUMBERS_PARAM_NAME: TWILIO_PHONE_NUMBERS
-    STRIPE_PUBLISHABLE_KEY: ${ssm:STRIPE_PUBLISHABLE_KEY}
-    STRIPE_SECRET_KEY: ${ssm:STRIPE_SECRET_KEY}
-
+    AWS_ACCOUNT_ID: ${AWS::AccountId}
+    
 functions: ${file(yml/functions.yml)}
 resources: ${file(yml/resources.yml)}

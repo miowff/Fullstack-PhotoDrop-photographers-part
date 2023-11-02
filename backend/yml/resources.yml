@@ -29,3 +29,8 @@ Resources:
               - "*"
             ExposedHeaders:
               - ETag
+
+  PhotosUploadedAlerts:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: photosUploadedAlerts

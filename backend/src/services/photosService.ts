@@ -12,6 +12,7 @@ import { AttachUsersToPhoto } from "src/models/attachUsersModel";
 import { IUsersRepository } from "src/db/IRepositories/IUsersRepository";
 import { SelectUser } from "src/db/entities/users";
 import { usersRepository } from "src/db/repositories/usersRepository";
+import { snsService } from "./utils/snsService";
 
 class PhotosService implements IPhotosService {
   constructor(
@@ -68,6 +69,7 @@ class PhotosService implements IPhotosService {
             isActivated: false,
           });
         }
+        await snsService.addPhotosUploadedEvent(phoneNumbers);
       }
     }
   };
