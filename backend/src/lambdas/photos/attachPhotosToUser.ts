@@ -4,8 +4,8 @@ import {
 } from "aws-lambda/trigger/api-gateway-proxy";
 import { photosService } from "src/services/photosService";
 import { jsonToMap } from "src/services/utils/JSONToMap";
-
 import responseCreator from "src/services/utils/responseCreator";
+import { snsService } from "src/services/utils/snsService";
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {

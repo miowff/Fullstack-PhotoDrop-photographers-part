@@ -51,6 +51,13 @@ class ResponseCreator {
       body: JSON.stringify(`Request authorizer context is missing.`),
     };
   };
+  unauthorized = () => {
+    return {
+      statusCode: 401,
+      headers: HEADERS,
+      body: JSON.stringify(`Unauthorized`),
+    };
+  };
 }
 const responseCreator = new ResponseCreator();
 export default responseCreator;
