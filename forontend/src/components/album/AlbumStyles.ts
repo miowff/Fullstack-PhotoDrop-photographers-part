@@ -17,6 +17,12 @@ export const AlbumContainer = styled.div`
   div {
     margin: 15px;
   }
+  h3 {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   @media (max-width: 665px) {
     img {
       margin: 0;
@@ -36,7 +42,6 @@ export const AlbumContainer = styled.div`
   }
   @media (max-width: 210px) {
     max-width: 150px;
-    
   }
 `;
 export const CardText = styled.div`

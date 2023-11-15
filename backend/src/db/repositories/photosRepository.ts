@@ -19,7 +19,15 @@ class PhotosRepository implements IPhotosRepository<InsertPhoto, Photo> {
     return albumPhotos;
   };
   addNew = async (photo: InsertPhoto): Promise<void> => {
-    await this.db.insert(photos).values(photo);
+    const existsPhoto = await this.db
+      .select()
+      .from(photos)
+      .where(eq(photos.photoName, photo.photoName));
+    if (existsPhoto) {
+      await this.db.update(photos).set(photo);
+    } else {
+      await this.db.insert(photos).values(photo);
+    }
   };
 }
 export const photosRepository = new PhotosRepository(db);
