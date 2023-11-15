@@ -7,11 +7,11 @@ import responseCreator from "src/services/utils/responseCreator";
 export const handler = async (event: S3Event) => {
   try {
     const { Records } = event;
-
-    const key = decodeURI(Records[0].s3.object.key).replace("+", " ");
+    const key = decodeURI(Records[0].s3.object.key).replace(/\+/g, " ");
     console.log(key);
     const splittedKey = key.split("/");
-    const albumTitle = decodeURI(splittedKey[1]).replace("+", " ");
+    const albumTitle = decodeURI(splittedKey[1]);
+    console.log(albumTitle);
     const { id, title } = await albumsService.getByTitle(albumTitle);
     const photoKey = splittedKey[2];
     const createPhotoRequest: CreatePhotoRequest = {
@@ -20,14 +20,10 @@ export const handler = async (event: S3Event) => {
       photoName: photoKey,
     };
     await photosService.addPhoto(createPhotoRequest);
-    await photosService.addWatermarkAndCreateThumbnails(
-      key.replace("+", " "),
-      photoKey,
-      title
-    );
-
+    await photosService.addWatermarkAndCreateThumbnails(key, photoKey, title);
     return;
   } catch (err) {
+    console.log(err);
     return responseCreator.error(err);
   }
 };

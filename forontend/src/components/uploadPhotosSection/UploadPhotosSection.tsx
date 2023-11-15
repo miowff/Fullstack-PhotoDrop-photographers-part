@@ -13,20 +13,12 @@ import {
   PhotosGrid,
   PhotoControls,
 } from "./uploadPhotosSectionStyles";
-
 import AddUsersForm from "../addUsersToPhotoForm/AddUsersForm";
-
 import { useParams } from "react-router-dom";
 import AttachNumbersAlert from "./AttachNumbersAlert";
-import { PhotoData } from "@/models/photo";
 import { selectedNumbersMapToJSON } from "@/utils/mapToJSON";
-import axios from "axios";
-import {
-  attachUsersToPhoto,
-  getAvailableNumbers,
-  requestUploadUrls,
-} from "@/api";
-import { PresignedUrl } from "@/models/url";
+import { attachUsersToPhoto, getAvailableNumbers } from "@/api";
+import { uploadPhotos } from "@/utils/photosUploader";
 
 const UploadPhotosSection = () => {
   const { id } = useParams();
@@ -62,28 +54,11 @@ const UploadPhotosSection = () => {
       }, 5000);
       return;
     }
-    const photosData: PhotoData[] = selectedImages.map((photo) => {
-      const { name, type } = photo;
-      return { name, type };
-    });
-    const responseUrls = (await requestUploadUrls({
-      photosData,
-      albumId: id as string,
-    })) as PresignedUrl[];
-    responseUrls.forEach(async (responseUrl, index) => {
-      const { fields, url } = responseUrl;
-      const formData = new FormData();
-      for (const [key, value] of Object.entries(fields)) {
-        formData.append(key, value);
-      }
-      formData.append("file", selectedImages[index]);
-      await axios.post(url, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    });
+    await uploadPhotos(selectedImages, id as string);
     setSelectedImages([]);
-
+    console.log(selectedPhoneNumbers);
     setSelectedPhoneNumbers(new Map());
+    console.log(selectedPhoneNumbers);
     setTimeout(async () => {
       await attachUsersToPhoto({
         albumId: id as string,
