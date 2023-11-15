@@ -71,7 +71,7 @@ const AddUsersForm: React.FC<UsersProps> = ({
                   type="checkbox"
                   onChange={() => handleCheckboxChange(number)}
                 />
-                <span>{number}</span>
+                <span>+{number}</span>
               </li>
             ))}
           </ul>

@@ -3,13 +3,26 @@ import { db } from "../dbConnection";
 
 import { IPhotosRepository } from "../IRepositories/IPhotosRepository";
 import { InsertPhoto, Photo, photos } from "../entities/photo";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { UserPhoto, userPhotos } from "../entities/userPhotos";
 
 class PhotosRepository implements IPhotosRepository<InsertPhoto, Photo> {
   constructor(private readonly db: MySql2Database) {}
   attachToUser = async (userPhoto: UserPhoto): Promise<void> => {
-    await this.db.insert(userPhotos).values(userPhoto);
+    const existsUserPhoto = await this.db
+      .select()
+      .from(userPhotos)
+      .where(
+        and(
+          eq(userPhotos.UserId, userPhoto.UserId),
+          eq(userPhotos.photoId, userPhoto.photoId)
+        )
+      );
+    if (existsUserPhoto.length !== 0) {
+      return;
+    } else {
+      await this.db.insert(userPhotos).values(userPhoto);
+    }
   };
   getAllAlbumPhotos = async (albumId: string): Promise<Photo[]> => {
     const albumPhotos = await this.db
@@ -23,8 +36,8 @@ class PhotosRepository implements IPhotosRepository<InsertPhoto, Photo> {
       .select()
       .from(photos)
       .where(eq(photos.photoName, photo.photoName));
-    if (existsPhoto) {
-      await this.db.update(photos).set(photo);
+    if (existsPhoto.length !== 0) {
+      return;
     } else {
       await this.db.insert(photos).values(photo);
     }
