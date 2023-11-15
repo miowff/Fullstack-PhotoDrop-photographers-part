@@ -35,8 +35,14 @@ class PhotosRepository implements IPhotosRepository<InsertPhoto, Photo> {
     const existsPhoto = await this.db
       .select()
       .from(photos)
-      .where(eq(photos.photoName, photo.photoName));
+      .where(
+        and(
+          eq(photos.photoName, photo.photoName),
+          eq(photos.albumId, photo.albumId)
+        )
+      );
     if (existsPhoto.length !== 0) {
+      console.log(existsPhoto);
       return;
     } else {
       await this.db.insert(photos).values(photo);
