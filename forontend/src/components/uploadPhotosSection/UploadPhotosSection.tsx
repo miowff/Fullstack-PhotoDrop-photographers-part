@@ -23,6 +23,7 @@ import { uploadPhotos } from "@/utils/photosUploader";
 const UploadPhotosSection = () => {
   const { id } = useParams();
   const [alertMessage, setAlertMessage] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [usersNumbers, setUsersNumbers] = useState<string[]>([]);
   const [isUserSelectionVisible, setIsSectionVisible] = useState(false);
@@ -54,17 +55,16 @@ const UploadPhotosSection = () => {
       }, 5000);
       return;
     }
+    setIsLoading(true);
     await uploadPhotos(selectedImages, id as string);
     setSelectedImages([]);
-    console.log(selectedPhoneNumbers);
-    setSelectedPhoneNumbers(new Map());
-    console.log(selectedPhoneNumbers);
+    setIsLoading(false);
     setTimeout(async () => {
-      await attachUsersToPhoto({
+      attachUsersToPhoto({
         albumId: id as string,
         userPhotoMap: selectedNumbersMapToJSON(selectedPhoneNumbers),
       });
-    }, 7000);
+    }, selectedImages.length * 5000);
   };
 
   const handleSelectedPhoneNumbersFromChild = (
@@ -154,25 +154,33 @@ const UploadPhotosSection = () => {
           </PhotosGrid>
         )}
         <ButtonsContainer>
-          <RemoveAllPhotos onClick={handleClearPhotos}>Clear</RemoveAllPhotos>
-          <InputWrapper>
-            <span className="label">
-              <a>Choose photos</a>
-            </span>
-            <InputPhotos
-              type="file"
-              placeholder="Upload photos"
-              multiple
-              onChange={handleImageChange}
-              ref={fileInputRef}
-            ></InputPhotos>
-          </InputWrapper>
-          {selectedImages.length > 0 && (
-            <UploadPhotos onClick={handleUploadClick}>Upload</UploadPhotos>
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <>
+              <RemoveAllPhotos onClick={handleClearPhotos}>
+                Clear
+              </RemoveAllPhotos>
+              <InputWrapper>
+                <span className="label">
+                  <a>Choose photos</a>
+                </span>
+                <InputPhotos
+                  type="file"
+                  placeholder="Upload photos"
+                  multiple
+                  onChange={handleImageChange}
+                  ref={fileInputRef}
+                ></InputPhotos>
+              </InputWrapper>
+              {selectedImages.length > 0 && (
+                <UploadPhotos onClick={handleUploadClick}>Upload</UploadPhotos>
+              )}
+              <BackToMenu onClick={() => (window.location.href = "/")}>
+                Back
+              </BackToMenu>
+            </>
           )}
-          <BackToMenu onClick={() => (window.location.href = "/")}>
-            Back
-          </BackToMenu>
         </ButtonsContainer>
       </UploadPhotosSectionContainer>
     </Container>

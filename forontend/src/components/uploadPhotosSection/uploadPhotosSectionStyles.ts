@@ -11,6 +11,9 @@ export const ButtonsContainer = styled.div`
   font-family: FuturaPT;
   font-size: 21px;
   gap: 170px;
+  p {
+    margin: 0 auto;
+  }
   button {
     cursor: pointer;
     height: 50px;
@@ -100,8 +103,6 @@ export const PhotosGrid = styled.div`
   display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-auto-rows: 200px;
-  grid-auto-rows: dense;
   img {
     max-width: 100%;
     height: auto;

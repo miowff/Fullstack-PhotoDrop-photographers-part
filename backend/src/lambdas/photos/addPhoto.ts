@@ -21,6 +21,7 @@ export const handler = async (event: S3Event) => {
     await photosService.addWatermarkAndCreateThumbnails(key, photoKey, title);
     return;
   } catch (err) {
+    console.log(err);
     return responseCreator.error(err);
   }
 };

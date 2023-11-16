@@ -45,6 +45,7 @@ const AddUsersForm: React.FC<UsersProps> = ({
   };
 
   const handleAddButtonClick = () => {
+    existingUsersPhoto.delete(photoKey);
     existingUsersPhoto.set(photoKey, selectedPhoneNumbers);
     onSelectedPhoneNumbers(existingUsersPhoto);
     onClose();

@@ -42,7 +42,6 @@ class PhotosRepository implements IPhotosRepository<InsertPhoto, Photo> {
         )
       );
     if (existsPhoto.length !== 0) {
-      console.log(existsPhoto);
       return;
     } else {
       await this.db.insert(photos).values(photo);

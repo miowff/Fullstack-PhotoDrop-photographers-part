@@ -13,7 +13,7 @@ class PhotoEditor {
   createThumbnail = async (imageBuffer: Buffer): Promise<EditedPhotoDto> => {
     const jimpImg = await Jimp.read(imageBuffer);
     const mime = jimpImg.getMIME();
-    const thumbnail = await jimpImg.scaleToFit(200, 200).getBufferAsync(mime);
+    const thumbnail = await jimpImg.scaleToFit(400, 400).getBufferAsync(mime);
     return { buffer: thumbnail, mime: mime };
   };
   addWatermark = async (imageBuffer: Buffer): Promise<EditedPhotoDto> => {

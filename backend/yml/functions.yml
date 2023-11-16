@@ -56,7 +56,7 @@ AddWatermarkAndThumbnailAddToDb:
         rules:
           - prefix: originalPhotos/
   memorySize: 1000
-  timeout: 10
+  timeout: 100
 
 SignIn:
   handler: src/lambdas/photographers/signIn.handler
