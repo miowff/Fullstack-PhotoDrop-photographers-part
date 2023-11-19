@@ -14,7 +14,7 @@ class ResponseCreator {
       return {
         statusCode: err.code,
         headers: HEADERS,
-        body: JSON.stringify(`${err}`),
+        body: JSON.stringify(`${err.message}`),
       };
     }
     return {

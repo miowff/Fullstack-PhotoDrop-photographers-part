@@ -1,25 +1,36 @@
+import middy from "@middy/core";
+import jsonBodyParser from "@middy/http-json-body-parser";
 import {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
 } from "aws-lambda/trigger/api-gateway-proxy";
+import Joi from "joi";
+import { errorHandlerMiddleware } from "src/middleware/errorHandler";
+import { validateBodyMiddleware } from "src/middleware/validateBody";
+import { AttachUsersToPhotoRequest } from "src/models/attachUsersModel";
 import { photosService } from "src/services/photosService";
 import { jsonToMap } from "src/services/utils/JSONToMap";
 import responseCreator from "src/services/utils/responseCreator";
-export const handler = async (
+
+const attachUsersRequest = Joi.object({
+  albumId: Joi.string().required(),
+  userPhotoMap: Joi.string().required(),
+});
+
+const attachPhotosToUser = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  try {
-    if (!event.body) {
-      return responseCreator.missedEventBody();
-    }
-    const { albumId, userPhotoMap } = JSON.parse(event.body);
-    const userPhoto = jsonToMap(userPhotoMap);
-    await photosService.attachUsersToPhoto({ albumId, userPhoto });
-    return responseCreator.default(
-      JSON.stringify(`${albumId} + ${userPhoto}`),
-      200
-    );
-  } catch (err) {
-    return responseCreator.error(err);
-  }
+  const { albumId, userPhotoMap } =
+    event.body as unknown as AttachUsersToPhotoRequest;
+  const userPhoto = jsonToMap(userPhotoMap);
+  await photosService.attachUsersToPhoto({ albumId, userPhoto });
+  return responseCreator.default(
+    JSON.stringify(`${albumId} + ${userPhoto}`),
+    200
+  );
 };
+export const handler = middy()
+  .use(jsonBodyParser())
+  .use(validateBodyMiddleware(attachUsersRequest))
+  .use(errorHandlerMiddleware())
+  .handler(attachPhotosToUser);
