@@ -1,1 +1,0 @@
-ALTER TABLE `UserPhotos` MODIFY COLUMN `PhotoId` varchar(80) NOT NULL;

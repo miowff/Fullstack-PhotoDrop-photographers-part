@@ -1,3 +1,8 @@
+CREATE TABLE `UserRefreshToken` (
+	`UserId` varchar(80) NOT NULL,
+	`RefreshToken` varchar(256) NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE `Albums` (
 	`Id` varchar(100) NOT NULL,
 	`Title` varchar(256) NOT NULL,
@@ -9,8 +14,15 @@ CREATE TABLE `Albums` (
 	CONSTRAINT `Albums_Id` PRIMARY KEY(`Id`)
 );
 --> statement-breakpoint
+CREATE TABLE `PhoneNumberCode` (
+	`PhoneNumber` varchar(100) NOT NULL,
+	`Code` int NOT NULL,
+	`ResendTries` int NOT NULL DEFAULT 1,
+	`SentTime` int NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE `Photos` (
-	`Id` serial AUTO_INCREMENT NOT NULL,
+	`Id` varchar(80) NOT NULL,
 	`AlbumId` varchar(70) NOT NULL,
 	`AlbumTitle` varchar(256) NOT NULL,
 	`PhotoName` varchar(256) NOT NULL,
@@ -26,13 +38,6 @@ CREATE TABLE `Photographers` (
 	CONSTRAINT `Photographers_Id` PRIMARY KEY(`Id`)
 );
 --> statement-breakpoint
-CREATE TABLE `UserPhotos` (
-	`UserId` varchar(70) NOT NULL,
-	`PhotoId` int NOT NULL,
-	`AlbumId` varchar(70) NOT NULL,
-	`IsActivated` boolean NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE `Users` (
 	`Id` varchar(70) NOT NULL,
 	`Email` varchar(100),
@@ -42,6 +47,14 @@ CREATE TABLE `Users` (
 	CONSTRAINT `Users_Id` PRIMARY KEY(`Id`)
 );
 --> statement-breakpoint
+CREATE TABLE `UserPhotos` (
+	`UserId` varchar(70) NOT NULL,
+	`PhotoId` varchar(80) NOT NULL,
+	`AlbumId` varchar(70) NOT NULL,
+	`IsActivated` boolean NOT NULL DEFAULT false
+);
+--> statement-breakpoint
+ALTER TABLE `UserRefreshToken` ADD CONSTRAINT `UserRefreshToken_UserId_Users_Id_fk` FOREIGN KEY (`UserId`) REFERENCES `Users`(`Id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `Photos` ADD CONSTRAINT `Photos_AlbumId_Albums_Id_fk` FOREIGN KEY (`AlbumId`) REFERENCES `Albums`(`Id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `UserPhotos` ADD CONSTRAINT `UserPhotos_UserId_Users_Id_fk` FOREIGN KEY (`UserId`) REFERENCES `Users`(`Id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `UserPhotos` ADD CONSTRAINT `UserPhotos_PhotoId_Photos_Id_fk` FOREIGN KEY (`PhotoId`) REFERENCES `Photos`(`Id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint

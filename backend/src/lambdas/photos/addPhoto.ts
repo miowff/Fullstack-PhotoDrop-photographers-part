@@ -3,6 +3,7 @@ import { CreatePhotoRequest } from "src/models/photo";
 import { albumsService } from "src/services/albumsService";
 import { photosService } from "src/services/photosService";
 import responseCreator from "src/services/utils/responseCreator";
+import { s3Service } from "src/services/utils/s3Service";
 
 export const handler = async (event: S3Event) => {
   try {
@@ -12,16 +13,20 @@ export const handler = async (event: S3Event) => {
     const albumTitle = decodeURI(splittedKey[1]);
     const { id, title } = await albumsService.getByTitle(albumTitle);
     const photoKey = splittedKey[2];
+    const photoBuffer = await s3Service.getImageBuffer(key);
+    await photosService.addWatermarkAndCreatePreview(
+      photoBuffer,
+      photoKey,
+      title
+    );
     const createPhotoRequest: CreatePhotoRequest = {
       albumId: id,
       albumTitle: title,
       photoName: photoKey,
     };
     await photosService.addPhoto(createPhotoRequest);
-    await photosService.addWatermarkAndCreateThumbnails(key, photoKey, title);
     return;
   } catch (err) {
-    console.log(err);
     return responseCreator.error(err);
   }
 };

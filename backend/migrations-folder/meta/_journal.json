@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1696238091234,
-      "tag": "0000_watery_scalphunter",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1697202440100,
-      "tag": "0001_organic_tana_nile",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1697202776866,
-      "tag": "0002_bright_timeslip",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1697284498617,
-      "tag": "0003_magical_meggan",
+      "when": 1701963618622,
+      "tag": "0000_loud_banshee",
       "breakpoints": true
     }
   ]

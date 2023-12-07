@@ -19,36 +19,23 @@ class PhotosService implements IPhotosService {
     private readonly photosRepository: IPhotosRepository<InsertPhoto, Photo>,
     private readonly usersRepository: IUsersRepository<SelectUser>
   ) {}
-  addWatermarkAndCreateThumbnails = async (
-    photoKey: string,
+  addWatermarkAndCreatePreview = async (
+    photoBuffer: Buffer,
     photoName: string,
     albumTitle: string
-  ): Promise<void> => {
-    const photoBuffer = await s3Service.getImageBuffer(photoKey);
+  ) => {
     const watermarkBuffer = await s3Service.getImageBuffer(
       getEnv("WATERMARK_KEY") as string
     );
     await photoEditor.setWatermark(watermarkBuffer);
-    const thumbnailPromise = photoEditor.createThumbnail(photoBuffer);
-    const thumbnailKey = `${FoldersNames.THUMBNAILS}/${albumTitle}/${photoName}`;
     const watermarkedPhotoPromise = photoEditor.addWatermark(photoBuffer);
     const watermarkedPhotoKey = `${FoldersNames.WATERMARKED_PHOTOS}/${albumTitle}/${photoName}`;
-    const watermarkedThumbnailPromise =
-      photoEditor.createWatermarkedThumbnail(photoBuffer);
-    const watermarkedThumbnailKey = `${FoldersNames.WATERMARKED_THUMBNAILS}/${albumTitle}/${photoName}`;
-    const promisesArray = new Array(
-      thumbnailPromise,
-      watermarkedPhotoPromise,
-      watermarkedThumbnailPromise
-    );
-    const keys = new Array(
-      thumbnailKey,
-      watermarkedPhotoKey,
-      watermarkedThumbnailKey
-    );
+    const previewKey = `${FoldersNames.PREVIEWS}/${albumTitle}/${photoName}`;
+    const preview = photoEditor.createPreview(photoBuffer);
+    const promisesArray = new Array(watermarkedPhotoPromise, preview);
+    const keys = new Array(watermarkedPhotoKey, previewKey);
     const promisesResult = await Promise.all(promisesArray);
     await s3Service.uploadEditedPhotos(promisesResult, keys);
-    return;
   };
   attachUsersToPhoto = async (
     attachRequest: AttachUsersToPhoto
@@ -75,12 +62,13 @@ class PhotosService implements IPhotosService {
   };
   addPhoto = async (photo: CreatePhotoRequest): Promise<void> => {
     const photoId = randomUUID();
-    const { albumId, albumTitle, photoName } = photo;
+    const { albumId, albumTitle, photoName, blurHash } = photo;
     await this.photosRepository.addNew({
       id: photoId,
       albumId,
       albumTitle,
       photoName,
+      blurHash,
     });
   };
 }

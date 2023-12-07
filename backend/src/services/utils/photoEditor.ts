@@ -9,13 +9,6 @@ class PhotoEditor {
   setWatermark = async (buffer: Buffer) => {
     this.watermark = await Jimp.read(buffer);
   };
-
-  createThumbnail = async (imageBuffer: Buffer): Promise<EditedPhotoDto> => {
-    const jimpImg = await Jimp.read(imageBuffer);
-    const mime = jimpImg.getMIME();
-    const thumbnail = await jimpImg.scaleToFit(400, 400).getBufferAsync(mime);
-    return { buffer: thumbnail, mime: mime };
-  };
   addWatermark = async (imageBuffer: Buffer): Promise<EditedPhotoDto> => {
     if (!this.watermark) {
       throw ApiError.IsNull("Watermark");
@@ -35,12 +28,14 @@ class PhotoEditor {
         opacitySource: 0.5,
       })
       .getBufferAsync(mime);
-    return { buffer: watermarkedPhoto, mime: mime };
+    return { buffer: watermarkedPhoto, mime };
   };
-  createWatermarkedThumbnail = async (imageBuffer: Buffer) => {
-    const thumbnail = await this.createThumbnail(imageBuffer);
-    const watermarkedThumbnail = await this.addWatermark(thumbnail.buffer);
-    return watermarkedThumbnail;
+  createPreview = async (imageBuffer: Buffer): Promise<EditedPhotoDto> => {
+    const previewImage = await Jimp.read(imageBuffer);
+    const mime = previewImage.getMIME();
+    previewImage.quality(25).blur(8);
+    const preview = await previewImage.getBufferAsync(mime);
+    return { buffer: preview, mime };
   };
 }
 

@@ -1,1 +1,0 @@
-ALTER TABLE `UserPhotos` MODIFY COLUMN `IsActivated` boolean NOT NULL DEFAULT false;

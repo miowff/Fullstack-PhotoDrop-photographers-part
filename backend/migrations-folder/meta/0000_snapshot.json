@@ -1,9 +1,46 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "f78c73e1-b87f-4bfd-85ab-93a4332228b7",
+  "id": "88e9ceff-5c6a-4492-9e69-c5240b5e8ecf",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "UserRefreshToken": {
+      "name": "UserRefreshToken",
+      "columns": {
+        "UserId": {
+          "name": "UserId",
+          "type": "varchar(80)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "RefreshToken": {
+          "name": "RefreshToken",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "UserRefreshToken_UserId_Users_Id_fk": {
+          "name": "UserRefreshToken_UserId_Users_Id_fk",
+          "tableFrom": "UserRefreshToken",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "Albums": {
       "name": "Albums",
       "columns": {
@@ -70,15 +107,53 @@
       },
       "uniqueConstraints": {}
     },
+    "PhoneNumberCode": {
+      "name": "PhoneNumberCode",
+      "columns": {
+        "PhoneNumber": {
+          "name": "PhoneNumber",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Code": {
+          "name": "Code",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ResendTries": {
+          "name": "ResendTries",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "SentTime": {
+          "name": "SentTime",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "Photos": {
       "name": "Photos",
       "columns": {
         "Id": {
           "name": "Id",
-          "type": "serial",
+          "type": "varchar(80)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
         "AlbumId": {
           "name": "AlbumId",
@@ -179,83 +254,6 @@
       },
       "uniqueConstraints": {}
     },
-    "UserPhotos": {
-      "name": "UserPhotos",
-      "columns": {
-        "UserId": {
-          "name": "UserId",
-          "type": "varchar(70)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "PhotoId": {
-          "name": "PhotoId",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "AlbumId": {
-          "name": "AlbumId",
-          "type": "varchar(70)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "IsActivated": {
-          "name": "IsActivated",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "UserPhotos_UserId_Users_Id_fk": {
-          "name": "UserPhotos_UserId_Users_Id_fk",
-          "tableFrom": "UserPhotos",
-          "tableTo": "Users",
-          "columnsFrom": [
-            "UserId"
-          ],
-          "columnsTo": [
-            "Id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "UserPhotos_PhotoId_Photos_Id_fk": {
-          "name": "UserPhotos_PhotoId_Photos_Id_fk",
-          "tableFrom": "UserPhotos",
-          "tableTo": "Photos",
-          "columnsFrom": [
-            "PhotoId"
-          ],
-          "columnsTo": [
-            "Id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "UserPhotos_AlbumId_Albums_Id_fk": {
-          "name": "UserPhotos_AlbumId_Albums_Id_fk",
-          "tableFrom": "UserPhotos",
-          "tableTo": "Albums",
-          "columnsFrom": [
-            "AlbumId"
-          ],
-          "columnsTo": [
-            "Id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "Users": {
       "name": "Users",
       "columns": {
@@ -305,6 +303,84 @@
           ]
         }
       },
+      "uniqueConstraints": {}
+    },
+    "UserPhotos": {
+      "name": "UserPhotos",
+      "columns": {
+        "UserId": {
+          "name": "UserId",
+          "type": "varchar(70)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "PhotoId": {
+          "name": "PhotoId",
+          "type": "varchar(80)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "AlbumId": {
+          "name": "AlbumId",
+          "type": "varchar(70)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "IsActivated": {
+          "name": "IsActivated",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "UserPhotos_UserId_Users_Id_fk": {
+          "name": "UserPhotos_UserId_Users_Id_fk",
+          "tableFrom": "UserPhotos",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "UserPhotos_PhotoId_Photos_Id_fk": {
+          "name": "UserPhotos_PhotoId_Photos_Id_fk",
+          "tableFrom": "UserPhotos",
+          "tableTo": "Photos",
+          "columnsFrom": [
+            "PhotoId"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "UserPhotos_AlbumId_Albums_Id_fk": {
+          "name": "UserPhotos_AlbumId_Albums_Id_fk",
+          "tableFrom": "UserPhotos",
+          "tableTo": "Albums",
+          "columnsFrom": [
+            "AlbumId"
+          ],
+          "columnsTo": [
+            "Id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }
   },
