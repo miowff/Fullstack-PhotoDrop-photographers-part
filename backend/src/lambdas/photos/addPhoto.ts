@@ -13,18 +13,19 @@ export const handler = async (event: S3Event) => {
     const albumTitle = decodeURI(splittedKey[1]);
     const { id, title } = await albumsService.getByTitle(albumTitle);
     const photoKey = splittedKey[2];
-    const photoBuffer = await s3Service.getImageBuffer(key);
-    await photosService.addWatermarkAndCreatePreview(
-      photoBuffer,
-      photoKey,
-      title
-    );
     const createPhotoRequest: CreatePhotoRequest = {
       albumId: id,
       albumTitle: title,
       photoName: photoKey,
     };
     await photosService.addPhoto(createPhotoRequest);
+    const photoBuffer = await s3Service.getImageBuffer(key);
+    await photosService.addWatermarkAndCreatePreview(
+      photoBuffer,
+      photoKey,
+      title
+    );
+
     return;
   } catch (err) {
     return responseCreator.error(err);

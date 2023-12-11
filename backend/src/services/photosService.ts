@@ -41,6 +41,7 @@ class PhotosService implements IPhotosService {
     attachRequest: AttachUsersToPhoto
   ): Promise<void> => {
     const { albumId, userPhoto } = attachRequest;
+    const phoneNumbersSet = new Set<string>();
     const albumPhotos = await this.photosRepository.getAllAlbumPhotos(albumId);
     for (let i = 0; i < albumPhotos.length; i++) {
       const { id: photoId, photoName } = albumPhotos[i];
@@ -55,20 +56,20 @@ class PhotosService implements IPhotosService {
             albumId: albumId,
             isActivated: false,
           });
+          phoneNumbersSet.add(phoneNumbers[j]);
         }
-        await snsService.addPhotosUploadedEvent(phoneNumbers);
       }
     }
+    await snsService.addPhotosUploadedEvent(Array.from(phoneNumbersSet));
   };
   addPhoto = async (photo: CreatePhotoRequest): Promise<void> => {
     const photoId = randomUUID();
-    const { albumId, albumTitle, photoName, blurHash } = photo;
+    const { albumId, albumTitle, photoName } = photo;
     await this.photosRepository.addNew({
       id: photoId,
       albumId,
       albumTitle,
       photoName,
-      blurHash,
     });
   };
 }
