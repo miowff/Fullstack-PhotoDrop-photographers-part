@@ -33,7 +33,7 @@ class PhotoEditor {
   createPreview = async (imageBuffer: Buffer): Promise<EditedPhotoDto> => {
     const previewImage = await Jimp.read(imageBuffer);
     const mime = previewImage.getMIME();
-    previewImage.quality(25).blur(8);
+    previewImage.resize(400, 400).quality(25).blur(50);
     const preview = await previewImage.getBufferAsync(mime);
     return { buffer: preview, mime };
   };

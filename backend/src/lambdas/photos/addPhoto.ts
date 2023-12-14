@@ -21,8 +21,9 @@ export const handler = async (event: S3Event) => {
       albumTitle: title,
       photoName: photoKey,
     };
-    await photosService.addPhoto(createPhotoRequest);
-    await photosService.attachUsersToPhoto(photoKey, photoId);
+    photosService.addPhoto(createPhotoRequest).then(() => {
+      photosService.attachUsersToPhoto(photoKey, photoId);
+    });
     const photoBuffer = await s3Service.getImageBuffer(key);
     await photosService.addWatermarkAndCreatePreview(
       photoBuffer,
@@ -31,6 +32,7 @@ export const handler = async (event: S3Event) => {
     );
     return;
   } catch (err) {
+    console.log(err);
     return responseCreator.error(err);
   }
 };

@@ -17,6 +17,7 @@ import { attachPhotosRequestsRepository } from "src/db/repositories/attachReques
 import { IUsersRepository } from "src/db/IRepositories/IUsersRepository";
 import { SelectUser } from "src/db/entities/users";
 import { usersRepository } from "src/db/repositories/usersRepository";
+import { snsService } from "./utils/snsService";
 
 class PhotosService implements IPhotosService {
   constructor(
@@ -34,12 +35,12 @@ class PhotosService implements IPhotosService {
     const { albumId, phoneNumbers: stringPhoneNumbers } =
       await this.attachPhotosRequestsRepository.get(photoKey);
     const phoneNumbers = JSON.parse(stringPhoneNumbers) as string[];
-    for (const number in phoneNumbers) {
-      const { id: userId } = await this.usersRepository.getUserByPhoneNumber(
+    for (const number of phoneNumbers) {
+      const { id: UserId } = await this.usersRepository.getUserByPhoneNumber(
         number
       );
       await this.photosRepository.attachToUser({
-        UserId: userId,
+        UserId,
         photoId: photoId,
         albumId: albumId,
         isActivated: false,
@@ -69,6 +70,7 @@ class PhotosService implements IPhotosService {
     attachRequest: AttachUsersToPhoto
   ): Promise<void> => {
     const { albumId, userPhoto } = attachRequest;
+    const phoneNumbersSet = new Set<string>();
     for (const [photoKey, phoneNumbers] of userPhoto) {
       const attachPhotoRequest = {
         photoKey,
@@ -76,7 +78,11 @@ class PhotosService implements IPhotosService {
         albumId,
       };
       await this.attachPhotosRequestsRepository.add(attachPhotoRequest);
+      for (const phoneNumber of phoneNumbers) {
+        phoneNumbersSet.add(phoneNumber);
+      }
     }
+    await snsService.addPhotosUploadedEvent(Array.from(phoneNumbersSet));
   };
   addPhoto = async (photo: CreatePhotoRequest): Promise<void> => {
     const { albumId, albumTitle, photoName, photoId: id } = photo;

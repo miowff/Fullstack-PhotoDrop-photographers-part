@@ -56,13 +56,13 @@ const UploadPhotosSection = () => {
       return;
     }
     setIsLoading(true);
-    await uploadPhotos(selectedImages, id as string);
-    setSelectedImages([]);
-    setIsLoading(false);
     await attachUsersToPhoto({
       albumId: id as string,
       userPhotoMap: selectedNumbersMapToJSON(selectedPhoneNumbers),
     });
+    await uploadPhotos(selectedImages, id as string);
+    setSelectedImages([]);
+    setIsLoading(false);
   };
 
   const handleSelectedPhoneNumbersFromChild = (
