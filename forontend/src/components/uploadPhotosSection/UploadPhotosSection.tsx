@@ -59,7 +59,7 @@ const UploadPhotosSection = () => {
     await uploadPhotos(selectedImages, id as string);
     setSelectedImages([]);
     setIsLoading(false);
-    attachUsersToPhoto({
+    await attachUsersToPhoto({
       albumId: id as string,
       userPhotoMap: selectedNumbersMapToJSON(selectedPhoneNumbers),
     });
