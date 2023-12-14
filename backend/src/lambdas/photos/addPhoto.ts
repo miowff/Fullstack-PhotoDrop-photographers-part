@@ -1,4 +1,5 @@
 import { S3Event } from "aws-lambda";
+import { randomUUID } from "crypto";
 import { CreatePhotoRequest } from "src/models/photo";
 import { albumsService } from "src/services/albumsService";
 import { photosService } from "src/services/photosService";
@@ -13,19 +14,21 @@ export const handler = async (event: S3Event) => {
     const albumTitle = decodeURI(splittedKey[1]);
     const { id, title } = await albumsService.getByTitle(albumTitle);
     const photoKey = splittedKey[2];
+    const photoId = randomUUID();
     const createPhotoRequest: CreatePhotoRequest = {
+      photoId,
       albumId: id,
       albumTitle: title,
       photoName: photoKey,
     };
     await photosService.addPhoto(createPhotoRequest);
+    await photosService.attachUsersToPhoto(photoKey, photoId);
     const photoBuffer = await s3Service.getImageBuffer(key);
     await photosService.addWatermarkAndCreatePreview(
       photoBuffer,
       photoKey,
       title
     );
-
     return;
   } catch (err) {
     return responseCreator.error(err);

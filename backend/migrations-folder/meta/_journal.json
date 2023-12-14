@@ -8,6 +8,13 @@
       "when": 1701963618622,
       "tag": "0000_loud_banshee",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1702553014183,
+      "tag": "0001_sour_bug",
+      "breakpoints": true
     }
   ]
 }

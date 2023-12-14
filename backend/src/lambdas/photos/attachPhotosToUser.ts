@@ -23,7 +23,7 @@ const attachPhotosToUser = async (
   const { albumId, userPhotoMap } =
     event.body as unknown as AttachUsersToPhotoRequest;
   const userPhoto = jsonToMap(userPhotoMap);
-  await photosService.attachUsersToPhoto({ albumId, userPhoto });
+  await photosService.createAttachRequests({ albumId, userPhoto });
   return responseCreator.default(
     JSON.stringify(`${albumId} + ${userPhoto}`),
     200

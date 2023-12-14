@@ -59,12 +59,10 @@ const UploadPhotosSection = () => {
     await uploadPhotos(selectedImages, id as string);
     setSelectedImages([]);
     setIsLoading(false);
-    setTimeout(async () => {
-      attachUsersToPhoto({
-        albumId: id as string,
-        userPhotoMap: selectedNumbersMapToJSON(selectedPhoneNumbers),
-      });
-    }, selectedImages.length * 5000);
+    attachUsersToPhoto({
+      albumId: id as string,
+      userPhotoMap: selectedNumbersMapToJSON(selectedPhoneNumbers),
+    });
   };
 
   const handleSelectedPhoneNumbersFromChild = (
