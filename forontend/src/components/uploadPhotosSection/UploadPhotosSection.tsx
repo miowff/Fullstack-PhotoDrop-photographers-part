@@ -156,9 +156,11 @@ const UploadPhotosSection = () => {
             <p>Loading...</p>
           ) : (
             <>
-              <RemoveAllPhotos onClick={handleClearPhotos}>
-                Clear
-              </RemoveAllPhotos>
+              {selectedImages.length > 0 && (
+                <RemoveAllPhotos onClick={handleClearPhotos}>
+                  Clear
+                </RemoveAllPhotos>
+              )}
               <InputWrapper>
                 <span className="label">
                   <a>Choose photos</a>
